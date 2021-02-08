@@ -46,22 +46,23 @@ function CreateExercise() {
         const exercise = {
             username: username,
             desc: desc,
-            duration: duration,
-            date: date
+            duration: Number(duration),
+            date: Date(date)
         }
 
         console.log(exercise);
         
-        try {
-            axios.post('http://localhost:5000/exercises/add', exercise)
-            .then(res => console.log(res.data));
-        } catch (error) {
-            console.log('erro => ', error)
-        }
+        axios.post('http://localhost:5000/exercises/add', exercise,{
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+        })
+        .then(res => {
+            console.log('ress ===> ', res)
+        })
+        .catch((error) => console.log( error.response.request) );
+            
 
-
-        
-        
         // window.location = "/";
     }
     
@@ -76,7 +77,6 @@ function CreateExercise() {
                         
                         <select
                             ref={userInput}
-                            required
                             value={username}
                             onChange={onChangeUsername}
                         >
@@ -96,15 +96,17 @@ function CreateExercise() {
                             type="text" 
                             value={desc}
                             onChange={onChangeDescription}
+                     
                         />
                     </div>
 
                     <div>
                         <label>Duration(in minutes): </label>
                         <input
-                            type="text"
+                            type="number"
                             value={duration}
                             onChange={onChangeDuration}
+                        
                         />
                     </div>
 
@@ -114,6 +116,7 @@ function CreateExercise() {
                             <DatePicker
                                 selected={date}
                                 onChange={onChangeDate}
+                                
                             />
                         </div>
                     </div>
