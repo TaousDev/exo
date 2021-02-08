@@ -16,19 +16,11 @@ function CreateExercise() {
         async function getData() {
             const resp = await axios.get('http://localhost:5000/users/')
             setUsers(resp.data.map(user => user.username))
-            setUsername(resp.data[0].username)
+            //setUsername(resp.data[0].username)
         }
 
         getData()
     }, [users])
-
-    /*
-    useEffect( async () => {
-        const results = await axios.get('http://localhost:5000/users/');
-        setUsers(results.data.map(user => user.username))
-        setUsername(results.data[0].username)
-    })
-    */
 
     const userInput = useRef(null)
 
@@ -60,10 +52,17 @@ function CreateExercise() {
 
         console.log(exercise);
         
-        axios.post('http://localhost:5000/exercises/add', exercise)
+        try {
+            axios.post('http://localhost:5000/exercises/add', exercise)
             .then(res => console.log(res.data));
+        } catch (error) {
+            console.log('erro => ', error)
+        }
+
+
         
-        window.location = "/";
+        
+        // window.location = "/";
     }
     
     return (
@@ -78,10 +77,11 @@ function CreateExercise() {
                         <select
                             ref={userInput}
                             required
-                            onChange={setUsername}
+                            value={username}
+                            onChange={onChangeUsername}
                         >
 
-                        { users.map((user) => <option key={user} value={user}>{user}</option>) }         
+                            { users.map((user) => <option key={user} value={user}>{user}</option>) }         
                         
                         </select>
                     
@@ -93,7 +93,7 @@ function CreateExercise() {
                     <div>
                         <label>Description: </label>
                         <input
-                            type="text" required
+                            type="text" 
                             value={desc}
                             onChange={onChangeDescription}
                         />
