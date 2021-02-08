@@ -12,25 +12,23 @@ function CreateExercise() {
     const [date, setDate] = useState(new Date())
     const [users, setUsers] = useState([])
 
-    /**
-     *  useEffect( () => {
-        axios.get('http://localhost:5000/users/')
-            .then( response => (
-                    setUsers(response.data.map(user => user.username),
-                    setUsername(response.data[0].username)
-                )
-            )) 
-            
-    }, [])
-   
-    */
+    useEffect(() => {
+        async function getData() {
+            const resp = await axios.get('http://localhost:5000/users/')
+            setUsers(resp.data.map(user => user.username))
+            setUsername(resp.data[0].username)
+        }
 
+        getData()
+    }, [users])
+
+    /*
     useEffect( async () => {
         const results = await axios.get('http://localhost:5000/users/');
         setUsers(results.data.map(user => user.username))
         setUsername(results.data[0].username)
-    }, [users])
-   
+    })
+    */
 
     const userInput = useRef(null)
 
@@ -76,15 +74,20 @@ function CreateExercise() {
                     <div>
                         <label>Username: </label>
 
+                        
                         <select
                             ref={userInput}
                             required
-                            value={username}
-                            onChange={setUsername} 
+                            onChange={setUsername}
                         >
+
                         { users.map((user) => <option key={user} value={user}>{user}</option>) }         
                         
                         </select>
+                    
+
+
+
                     </div>
 
                     <div>
