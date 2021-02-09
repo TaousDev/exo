@@ -5,19 +5,17 @@ const Schema = mongoose.Schema
 const exerciseSchema = new Schema({
     username: {
         type: String,
-        required: true
     }, 
     desc: {
         type: String,
-        required: true
     },
     duration: {
         type: Number,
-        required: true
+        required: false
     },
     date: {
-        type: Date, 
-        required: true
+        type: Date,
+        required: false
     }
 }, {
         timestamps: true

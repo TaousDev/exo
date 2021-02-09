@@ -25,34 +25,33 @@ function CreateExercise() {
     const userInput = useRef(null)
 
     const onChangeUsername = (e) => {
-        setUsername( e.target.value )
+        setUsername(e.target.value)
     }
-    
     const onChangeDescription = (e) => {
         setDesc(e.target.value)
     }
     
     const onChangeDuration = (e) => {
-        setDuration(e.target.value)
+        setDuration(Number(e.target.value))
     }
     
     const onChangeDate = (date) => {
-        setDate(date)
+        setDate(Date.parse(date))
     }
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
 
         const exercise = {
             username: username,
             desc: desc,
             duration: Number(duration),
-            date: Date(date)
+            date: Date.parse(date)
         }
 
         console.log(exercise);
         
-        axios.post('http://localhost:5000/exercises/add', exercise,{
+        await axios.post('http://localhost:5000/exercises/add', exercise,{
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                 }
